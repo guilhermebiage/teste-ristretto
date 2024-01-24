@@ -3,21 +3,25 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ristretto.Entities
 {
-    public partial class Employee : IEntityTypeConfiguration<Employee>
+    public sealed partial class Employee
     {
-        public void Configure(EntityTypeBuilder<Employee> builder)
+        public sealed class EntityTypeConfigurationAttribute : IEntityTypeConfiguration<Employee>
         {
-            _ = builder.ToTable("FUNCIONARIOS");
-            _ = builder.HasKey(e => e.Id);
+            public void Configure(EntityTypeBuilder<Employee> builder)
+            {
+                _ = builder.ToTable("funcionarios", "ristretto");
+                _ = builder.HasKey(e => e.Id);
 
-            _ = builder.Property(e => e.Name).HasColumnName("NOME");
-            _ = builder.Property(e => e.Email).HasColumnName("EMAIL");
-            _ = builder.Property(e => e.JobRole).HasColumnName("CARGO");
-            _ = builder.Property(e => e.DateOfBirth).HasColumnName("DATA_DE_NASCIMENTO");
-            _ = builder.Property(e => e.Login).HasColumnName("LOGIN");
-            _ = builder.Property(e => e.Password).HasColumnName("SENHA");
+                _ = builder.Property(e => e.Name).HasColumnName("nome");
+                _ = builder.Property(e => e.Email).HasColumnName("email");
+                _ = builder.Property(e => e.JobRole).HasColumnName("cargo");
+                _ = builder.Property(e => e.DateOfBirth).HasColumnName("data_de_nascimento");
+                _ = builder.Property(e => e.Login).HasColumnName("login");
+                _ = builder.Property(e => e.Password).HasColumnName("senha");
 
-            _ = builder.HasOne<Company>(e => e.Company).WithMany(c => c.Employees);
+                _ = builder.HasOne<Company>(e => e.Company).WithMany().HasForeignKey(c => c.Company.Id);
+            }
+
         }
     }
 }

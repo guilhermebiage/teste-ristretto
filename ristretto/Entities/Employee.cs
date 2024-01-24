@@ -10,8 +10,7 @@ namespace ristretto.Entities
         public string JobRole { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string Login {  get; set; }
-        public SecureString Password { get; set; }
-
+        public string Password { get; set; }
         public Company Company { get; set; }
     }
 }

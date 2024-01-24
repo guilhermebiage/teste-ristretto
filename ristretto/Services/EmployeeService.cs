@@ -1,4 +1,5 @@
 ﻿using ristretto.Entities;
+using ristretto.Extensions;
 using ristretto.Repositories;
 
 namespace ristretto.Services
@@ -15,6 +16,8 @@ namespace ristretto.Services
         public async Task<Employee> CreateEmployeeAsync(Employee employee)
         {
             _ = employee ?? throw new ArgumentNullException(nameof(employee));
+
+            employee.Password = employee.Password.Encode();
 
             return await _employeeRepository.InsertEmployeeAsync(employee);
         }

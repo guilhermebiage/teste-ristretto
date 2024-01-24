@@ -1,11 +1,15 @@
+using Microsoft.EntityFrameworkCore;
 using ristretto.Configuration;
 using ristretto.Extensions;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddDbContext<ApplicationDbContext>();
+var Configuration = builder.Configuration;
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddRepositories();
 builder.Services.AddServices();
 builder.Services.AddControllers();
